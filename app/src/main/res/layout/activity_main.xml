@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteY="25dp">
+
+    <TextView
+        android:id="@+id/response"
+        android:layout_width="136dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="212dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:paddingTop="10dp"
+        android:text="0"
+        android:textAlignment="viewStart"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/tourStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="251dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="56dp"
+        android:text="TourStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hoechstkmh" />
+
+    <TextView
+        android:id="@+id/response2"
+        android:layout_width="124dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="224dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="22dp"
+        android:paddingTop="10dp"
+        android:text="0"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/response" />
+
+    <TextView
+        android:id="@+id/tourKM"
+        android:layout_width="110dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="238dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="33dp"
+        android:text="TourKM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/response2" />
+
+    <TextView
+        android:id="@+id/durchschnittskmh"
+        android:layout_width="135dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="218dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:text="Durchschnittskm/h"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tourKM" />
+
+    <TextView
+        android:id="@+id/hoechstkmh"
+        android:layout_width="130dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="218dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="10dp"
+        android:text="Höchstkm/h"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/durchschnittskmh" />
+
+    <Button
+        android:id="@+id/tourResset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="245dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="21dp"
+        android:text="TourResset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tourStart" />
+
+</android.support.constraint.ConstraintLayout>
