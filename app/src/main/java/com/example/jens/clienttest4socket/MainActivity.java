@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -19,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -29,17 +34,18 @@ public class MainActivity extends Activity {
     Button tourStartButton, tourRessetButton;
     //gesendete Daten und diese Daten umgewandelt in Int
     String a, b;
-    int kmh, km;
+    double kmh, km;
+
 
     //Variablen für Berechnung der Durchschnittskmh
-    int kmhSumme = 0, kmhSummeCount=0, durchschnittsKmh = 0;
-
+    double kmhSumme = 0, durchschnittsKmh = 0;
+    int kmhSummeCount=0;
     //Variablen für die Tourkilometer
-    int tourStartKilometer;
-    int tourKilometer;
+    double tourStartKilometer;
+    double tourKilometer;
 
     //Variablen für die höchstkmh
-    int hoechstKmh=0;
+    double hoechstKmh=0;
 
     MyClientTask myClientTask;
     boolean tourRunning = false;
@@ -51,7 +57,7 @@ public class MainActivity extends Activity {
         @Override
         public void run() {
             getData();
-            handler.postDelayed(this, 10000);
+            handler.postDelayed(this, 1000);
         }
     };
 
@@ -91,14 +97,22 @@ public class MainActivity extends Activity {
         tourStartButton.setEnabled(true);
         tourRessetButton.setEnabled(false);
 
+
+
+
         //WENN BEIM START KEINE VERBINDUNG MÖGLICH WAR, SO KANN MAN MIT DIESEM KNOPF EINE VERBINDUNG HERSTELLEN
         tourStartButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 tourRunning = true;
 
-                tourStartKilometer = Integer.parseInt(textResponse2.getText().toString());
 
+                //HIERFÜR ETWAS ANDERES AUSDENKEN!
+                try {
+                    tourStartKilometer = Double.parseDouble(textResponse2.getText().toString());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
 
 
                 tourKmResponse.setText("0.0");
@@ -152,6 +166,8 @@ public class MainActivity extends Activity {
 
         TourFuncs tourFuncs = new TourFuncs();
 
+        DecimalFormat formatter = new DecimalFormat("#.##");
+
         //SharedPreferences sharedPreferences = getSharedPreferences("com.example.jens.clienttest4socket", MODE_PRIVATE);
 
 
@@ -186,8 +202,17 @@ public class MainActivity extends Activity {
                 a = response.substring(0, response.indexOf("#"));
                 b = response.substring(response.indexOf("#") + 1, response.indexOf("*"));
 
-                kmh = Integer.parseInt(a);
-                km = Integer.parseInt(b);
+
+                try
+                {
+                    kmh = Double.parseDouble(a);
+                    km = Double.parseDouble(b);
+
+                }
+                catch(NumberFormatException n)
+                {
+                    n.printStackTrace();
+                }
 
 
                 if (tourRunning) {
@@ -222,6 +247,7 @@ public class MainActivity extends Activity {
 
 
             //textResponse.setText(response);
+
             textResponse.setText(a);
             textResponse2.setText(b);
             super.onPostExecute(result);

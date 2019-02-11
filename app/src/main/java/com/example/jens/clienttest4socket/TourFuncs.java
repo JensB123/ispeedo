@@ -6,9 +6,9 @@ public class TourFuncs {
 
 
 
-    public int höchstgeschwindigkeit(int kmhaktuell, int hoechstkmh){
+    public double höchstgeschwindigkeit(double kmhaktuell, double hoechstkmh){
 
-        int returnNeueHöchstKmh;
+        double returnNeueHöchstKmh;
 
         if(kmhaktuell > hoechstkmh){
             returnNeueHöchstKmh = kmhaktuell;
@@ -22,9 +22,9 @@ public class TourFuncs {
     }
 
     //Datentypen noch nicht ganz klar;
-    public int tourKilometer(int aktuellekilometer, int tourStartKilometer){
+    public double tourKilometer(double aktuellekilometer, double tourStartKilometer){
 
-        int tourkm;
+        double tourkm;
 
         tourkm = aktuellekilometer-tourStartKilometer;
 
