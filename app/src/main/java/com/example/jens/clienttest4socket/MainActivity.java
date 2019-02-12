@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,6 +83,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
+        final SharedPreferences sharedPreferences = this.getSharedPreferences("com.example.jens.clienttest4socket", Context.MODE_PRIVATE);
+
+
+
+
+
         //TEXTRESPONSE GIBT DEN GESENDETEN TEXT AUS
         //response = kmh
         textResponse = (TextView) findViewById(R.id.response);
@@ -94,9 +101,37 @@ public class MainActivity extends Activity {
         hoechstkmhResponse = (TextView) findViewById(R.id.hoechstkmh);
 
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if (sharedPreferences.getBoolean("tourRunning",false)) {
+
+            tourStartButton.setEnabled(false);
+            tourRessetButton.setEnabled(true);
+
+            tourKmResponse.setText("0.0");
+            durchschnittsKmhResponse.setText("0.0");
+            hoechstkmhResponse.setText("0.0");
+
+        }else{
+
+            tourStartButton.setEnabled(true);
+            tourRessetButton.setEnabled(false);
+
+            tourKmResponse.setText("TourKM");
+            durchschnittsKmhResponse.setText("Durchschnittskm/h");
+            hoechstkmhResponse.setText("Hoechstkm/h");
+
+
+
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /*
         tourStartButton.setEnabled(true);
         tourRessetButton.setEnabled(false);
-
+*/
 
 
 
@@ -107,12 +142,23 @@ public class MainActivity extends Activity {
                 tourRunning = true;
 
 
+                /*
                 //HIERFÜR ETWAS ANDERES AUSDENKEN!
                 try {
                     tourStartKilometer = Double.parseDouble(textResponse2.getText().toString());
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                sharedPreferences.edit().putString("tourStartKilometer",b).apply(); //tourstartkilometer als string! gespeichert
+                Toast.makeText(getBaseContext(),sharedPreferences.getString("tourStartKilometer","0"),Toast.LENGTH_SHORT).show();
+                sharedPreferences.edit().putString("hoechstKmh",a).apply(); //die ersten kmh als hoechstkmh speichern
+                sharedPreferences.edit().putString("kmhSummeDurch",a).apply(); //das erste a ist die erste kmh Summe
+                sharedPreferences.edit().putInt("kmhSummeCount",1).apply();
+                sharedPreferences.edit().putBoolean("tourRunning",true).apply();
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
                 tourKmResponse.setText("0.0");
@@ -131,6 +177,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 tourRunning = false;
+
+
+                /////////////////////////////////////////////
+                sharedPreferences.edit().clear().commit();
+                sharedPreferences.edit().putBoolean("tourRunning",false).apply();
+                ////////////////////////////////////////////
+
 
                 kmhSumme = 0;
                 kmhSummeCount = 0;
@@ -168,7 +221,7 @@ public class MainActivity extends Activity {
 
         DecimalFormat formatter = new DecimalFormat("#.##");
 
-        //SharedPreferences sharedPreferences = getSharedPreferences("com.example.jens.clienttest4socket", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.jens.clienttest4socket", MODE_PRIVATE);
 
 
         MyClientTask(String addr, int port) {
@@ -214,7 +267,7 @@ public class MainActivity extends Activity {
                     n.printStackTrace();
                 }
 
-
+/*
                 if (tourRunning) {
                     //durchschnittskmh berechnung
                     kmhSumme = kmhSumme + kmh;
@@ -229,6 +282,40 @@ public class MainActivity extends Activity {
 
 
                 }
+*/
+///////////////////////////////////////////////////////////////
+                if (sharedPreferences.getBoolean("tourRunning",true)) {
+
+                    //durchschnittskmh
+
+                    kmhSumme = Double.parseDouble(sharedPreferences.getString("kmhSummeDurch","0")) + kmh;
+                    sharedPreferences.edit().putString("kmhSummeDurch",Double.toString(kmhSumme)).apply();
+
+                    kmhSummeCount = sharedPreferences.getInt("kmhSummeCount",0) + 1;
+                    sharedPreferences.edit().putInt("kmhSummeCount",kmhSummeCount).apply();
+
+                    durchschnittsKmh = Double.parseDouble(sharedPreferences.getString("kmhSummeDurch","0"))/sharedPreferences.getInt("kmhSummeCount",0);
+                    //tourkm
+
+
+                    tourKilometer = tourFuncs.tourKilometer(km,Double.parseDouble(sharedPreferences.getString("tourStartKilometer","0").replace(",",".")));
+
+                    //hoechstgesch
+
+                    hoechstKmh = tourFuncs.höchstgeschwindigkeit(kmh,Double.parseDouble(sharedPreferences.getString("hoechstKmh","0")));
+
+                    if(hoechstKmh>60){
+                        hoechstKmh=60;
+                    }
+
+                    sharedPreferences.edit().putString("hoechstKmh",Double.toString(hoechstKmh)).apply();
+
+                }
+
+
+                //////////////////////////////////////////////////
+
+
 
             } catch (UnknownHostException e) {
                 // TODO Auto-generated catch block
@@ -252,7 +339,7 @@ public class MainActivity extends Activity {
             textResponse2.setText(b);
             super.onPostExecute(result);
 
-            if (tourRunning) {
+            if (sharedPreferences.getBoolean("tourRunning",false)) {
                 //tourKmResponse.setText("Testdaten1: "+a+4);
                 tourKmResponse.setText("Tkm: "+tourKilometer);
                 durchschnittsKmhResponse.setText("Dkm/h: " +durchschnittsKmh);
