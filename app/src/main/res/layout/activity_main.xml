@@ -11,11 +11,11 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="330dp"
-        android:layout_height="0dp"
+        android:layout_height="180dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="70dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,14 +27,22 @@
             android:layout_height="60dp"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1"
+                android:padding="5dp"
+                android:src="@drawable/tourkm" />
+
             <TextView
                 android:id="@+id/tourKM"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.6"
                 android:paddingTop="15dp"
                 android:text="TourKM"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 tools:layout_editor_absoluteX="55dp"
                 tools:layout_editor_absoluteY="396dp" />
@@ -43,8 +51,9 @@
                 android:id="@+id/tourStart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TourStart"
+                android:layout_weight="0.8"
+                android:text="Start"
+                android:textAllCaps="false"
                 tools:layout_editor_absoluteX="251dp"
                 tools:layout_editor_absoluteY="396dp" />
 
@@ -55,13 +64,22 @@
             android:layout_height="60dp"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1"
+                android:padding="5dp"
+                android:src="@drawable/durchgeschw" />
+
             <TextView
                 android:id="@+id/durchschnittskmh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.6"
                 android:paddingTop="15dp"
                 android:text="Durchschnittskm/h"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 tools:layout_editor_absoluteX="55dp"
                 tools:layout_editor_absoluteY="444dp" />
@@ -70,8 +88,9 @@
                 android:id="@+id/tourResset"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TourResset"
+                android:layout_weight="0.8"
+                android:text="Resset"
+                android:textAllCaps="false"
                 tools:layout_editor_absoluteX="244dp"
                 tools:layout_editor_absoluteY="469dp" />
         </LinearLayout>
@@ -81,13 +100,22 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1"
+                android:padding="10dp"
+                android:src="@drawable/hoechstgeschw" />
+
             <TextView
                 android:id="@+id/hoechstkmh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.6"
                 android:paddingTop="15dp"
                 android:text="Höchstkm/h"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 tools:layout_editor_absoluteX="55dp"
                 tools:layout_editor_absoluteY="498dp" />
@@ -96,7 +124,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="0.8" />
         </LinearLayout>
     </LinearLayout>
 
@@ -105,7 +133,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="75dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="25dp"
         android:orientation="vertical"
@@ -154,5 +182,38 @@
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="63dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="174dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="174dp"
+        android:layout_marginBottom="9dp"
+        android:text="Tour"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="47dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="iSpeedo"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
