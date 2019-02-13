@@ -12,17 +12,21 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +37,17 @@ public class MainActivity extends Activity {
     TextView textResponse, textResponse2;
     TextView tourKmResponse, durchschnittsKmhResponse, hoechstkmhResponse;
     Button tourStartButton, tourRessetButton;
+
+   //Nightmode gedöns
+
+    Button ndmode;
+    ImageView imageTourKm,imageDuKmh,imageHoeKmh;
+    boolean nightmodeOn = true;
+    ConstraintLayout background;
+
+
+
+
     //gesendete Daten und diese Daten umgewandelt in Int
     String a, b;
     double kmh, km;
@@ -101,6 +116,13 @@ public class MainActivity extends Activity {
         hoechstkmhResponse = (TextView) findViewById(R.id.hoechstkmh);
 
 
+        ndmode = (Button) findViewById(R.id.ndmode);
+
+        imageTourKm = (ImageView) findViewById(R.id.imageView);
+        imageDuKmh = (ImageView) findViewById(R.id.imageView2);
+        imageHoeKmh = (ImageView) findViewById(R.id.imageView4);
+        background = (ConstraintLayout) findViewById(R.id.background);
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if (sharedPreferences.getBoolean("tourRunning",false)) {
@@ -152,7 +174,7 @@ public class MainActivity extends Activity {
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 sharedPreferences.edit().putString("tourStartKilometer",b).apply(); //tourstartkilometer als string! gespeichert
-                Toast.makeText(getBaseContext(),sharedPreferences.getString("tourStartKilometer","0")+" "+b,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(),sharedPreferences.getString("tourStartKilometer","0")+" "+b,Toast.LENGTH_SHORT).show();
                 sharedPreferences.edit().putString("hoechstKmh",a).apply(); //die ersten kmh als hoechstkmh speichern
                 sharedPreferences.edit().putString("kmhSummeDurch",a).apply(); //das erste a ist die erste kmh Summe
                 sharedPreferences.edit().putInt("kmhSummeCount",1).apply();
@@ -206,6 +228,47 @@ public class MainActivity extends Activity {
 
         //Der Handler, welcher die Verbindung herstellt und beim Start der App eine erste Verbidung aufbaut (Wofür stehen die 1000ms? ggf. für den Delay vor dem Start?)
         handler.postDelayed(runnable, 1000);
+
+
+        ndmode.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(nightmodeOn){
+
+                    imageTourKm.setImageResource(R.drawable.tourkmhell);
+                    imageDuKmh.setImageResource(R.drawable.durchgeschwhell);
+                    imageHoeKmh.setImageResource(R.drawable.hoechstgeschwhell);
+
+                    background.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+                    textResponse.setTextColor(Color.parseColor("#141D26"));
+                    textResponse2.setTextColor(Color.parseColor("#141D26"));
+                    tourKmResponse.setTextColor(Color.parseColor("#141D26"));
+                    durchschnittsKmhResponse.setTextColor(Color.parseColor("#141D26"));
+                    hoechstkmhResponse.setTextColor(Color.parseColor("#141D26"));
+
+                    nightmodeOn = false;
+                }else{
+
+                    imageTourKm.setImageResource(R.drawable.tourkm);
+                    imageDuKmh.setImageResource(R.drawable.durchgeschw);
+                    imageHoeKmh.setImageResource(R.drawable.hoechstgeschw);
+
+                    background.setBackgroundColor(Color.parseColor("#141D26"));
+
+                    textResponse.setTextColor(Color.parseColor("#FFFFFF"));
+                    textResponse2.setTextColor(Color.parseColor("#FFFFFF"));
+                    tourKmResponse.setTextColor(Color.parseColor("#FFFFFF"));
+                    durchschnittsKmhResponse.setTextColor(Color.parseColor("#FFFFFF"));
+                    hoechstkmhResponse.setTextColor(Color.parseColor("#FFFFFF"));
+
+                    nightmodeOn = true;
+                }
+
+
+            }
+        });
 
 
     }
@@ -335,15 +398,15 @@ public class MainActivity extends Activity {
 
             //textResponse.setText(response);
 
-            textResponse.setText(a);
-            textResponse2.setText(b);
+            textResponse.setText(a+" km/h");
+            textResponse2.setText(b+" km");
             super.onPostExecute(result);
 
             if (sharedPreferences.getBoolean("tourRunning",false)) {
                 //tourKmResponse.setText("Testdaten1: "+a+4);
-                tourKmResponse.setText("Tkm: "+formatter.format(tourKilometer));
-                durchschnittsKmhResponse.setText("Dkm/h: " +formatter.format(durchschnittsKmh));
-                hoechstkmhResponse.setText("Hkm/h: "+hoechstKmh);
+                tourKmResponse.setText(""+formatter.format(tourKilometer)+" km");
+                durchschnittsKmhResponse.setText(""+formatter.format(durchschnittsKmh)+" km/h");
+                hoechstkmhResponse.setText(""+hoechstKmh+" km/h");
             }
 
 
