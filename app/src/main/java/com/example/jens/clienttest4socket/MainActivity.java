@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
     Button ndmode;
     ImageView imageTourKm,imageDuKmh,imageHoeKmh;
     boolean nightmodeOn = true;
+    boolean nightmodeOnCom;
     ConstraintLayout background;
 
 
@@ -150,6 +151,42 @@ public class MainActivity extends Activity {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+        if(sharedPreferences.getBoolean("nightModeOn",true)){
+
+            imageTourKm.setImageResource(R.drawable.tourkm);
+            imageDuKmh.setImageResource(R.drawable.durchgeschw);
+            imageHoeKmh.setImageResource(R.drawable.hoechstgeschw);
+
+            background.setBackgroundColor(Color.parseColor("#141D26"));
+
+            textResponse.setTextColor(Color.parseColor("#FFFFFF"));
+            textResponse2.setTextColor(Color.parseColor("#FFFFFF"));
+            tourKmResponse.setTextColor(Color.parseColor("#FFFFFF"));
+            durchschnittsKmhResponse.setTextColor(Color.parseColor("#FFFFFF"));
+            hoechstkmhResponse.setTextColor(Color.parseColor("#FFFFFF"));
+
+
+            nightmodeOn = false;
+        }else{
+
+
+
+
+            imageTourKm.setImageResource(R.drawable.tourkmhell);
+            imageDuKmh.setImageResource(R.drawable.durchgeschwhell);
+            imageHoeKmh.setImageResource(R.drawable.hoechstgeschwhell);
+
+            background.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+            textResponse.setTextColor(Color.parseColor("#141D26"));
+            textResponse2.setTextColor(Color.parseColor("#141D26"));
+            tourKmResponse.setTextColor(Color.parseColor("#141D26"));
+            durchschnittsKmhResponse.setTextColor(Color.parseColor("#141D26"));
+            hoechstkmhResponse.setTextColor(Color.parseColor("#141D26"));
+
+            nightmodeOn = true;
+        }
+
         /*
         tourStartButton.setEnabled(true);
         tourRessetButton.setEnabled(false);
@@ -202,8 +239,10 @@ public class MainActivity extends Activity {
 
 
                 /////////////////////////////////////////////
+                nightmodeOnCom = sharedPreferences.getBoolean("nightModeOn",true);
                 sharedPreferences.edit().clear().commit();
                 sharedPreferences.edit().putBoolean("tourRunning",false).apply();
+                sharedPreferences.edit().putBoolean("nightModeOn",nightmodeOnCom).apply();
                 ////////////////////////////////////////////
 
 
@@ -234,7 +273,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                if(nightmodeOn){
+                if(sharedPreferences.getBoolean("nightModeOn",true)){
 
                     imageTourKm.setImageResource(R.drawable.tourkmhell);
                     imageDuKmh.setImageResource(R.drawable.durchgeschwhell);
@@ -247,6 +286,8 @@ public class MainActivity extends Activity {
                     tourKmResponse.setTextColor(Color.parseColor("#141D26"));
                     durchschnittsKmhResponse.setTextColor(Color.parseColor("#141D26"));
                     hoechstkmhResponse.setTextColor(Color.parseColor("#141D26"));
+
+                    sharedPreferences.edit().putBoolean("nightModeOn",false).apply();
 
                     nightmodeOn = false;
                 }else{
@@ -262,6 +303,8 @@ public class MainActivity extends Activity {
                     tourKmResponse.setTextColor(Color.parseColor("#FFFFFF"));
                     durchschnittsKmhResponse.setTextColor(Color.parseColor("#FFFFFF"));
                     hoechstkmhResponse.setTextColor(Color.parseColor("#FFFFFF"));
+
+                    sharedPreferences.edit().putBoolean("nightModeOn",true).apply();
 
                     nightmodeOn = true;
                 }
