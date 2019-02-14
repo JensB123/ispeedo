@@ -73,8 +73,12 @@ public class MainActivity extends Activity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            getData();
-            handler.postDelayed(this, 1000);
+            try {
+                getData();
+                handler.postDelayed(this, 1000);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     };
 
@@ -124,6 +128,8 @@ public class MainActivity extends Activity {
         imageHoeKmh = (ImageView) findViewById(R.id.imageView4);
         background = (ConstraintLayout) findViewById(R.id.background);
 
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if (sharedPreferences.getBoolean("tourRunning",false)) {
@@ -131,18 +137,18 @@ public class MainActivity extends Activity {
             tourStartButton.setEnabled(false);
             tourRessetButton.setEnabled(true);
 
-            tourKmResponse.setText("0");
-            durchschnittsKmhResponse.setText("0");
-            hoechstkmhResponse.setText("0");
+            tourKmResponse.setText("0.00 km");
+            durchschnittsKmhResponse.setText("0.00 km/h");
+            hoechstkmhResponse.setText("0.00 km/h");
 
         }else{
 
             tourStartButton.setEnabled(true);
             tourRessetButton.setEnabled(false);
 
-            tourKmResponse.setText("TourKM");
-            durchschnittsKmhResponse.setText("Durchschnittskm/h");
-            hoechstkmhResponse.setText("Hoechstkm/h");
+            tourKmResponse.setText("tour kilometers");
+            durchschnittsKmhResponse.setText("average speed");
+            hoechstkmhResponse.setText("top speed");
 
 
 
@@ -204,15 +210,16 @@ public class MainActivity extends Activity {
                 sharedPreferences.edit().putBoolean("tourRunning",true).apply();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+//Tourstartzeit für durschnittsgeschwindigkeit
+/*
                 long startTime = System.currentTimeMillis();
                 sharedPreferences.edit().putLong("startTime",startTime).apply();
-
+*/
                 ////////////////////////
 
-                tourKmResponse.setText("0.0");
-                durchschnittsKmhResponse.setText("0.0");
-                hoechstkmhResponse.setText("0.0");
+                tourKmResponse.setText("0.00 km");
+                durchschnittsKmhResponse.setText("0.00 km/h");
+                hoechstkmhResponse.setText("0.00 km/h");
 
 
 
@@ -245,9 +252,9 @@ public class MainActivity extends Activity {
 
                 hoechstKmh = 0;
 
-                tourKmResponse.setText("TourKM");
-                durchschnittsKmhResponse.setText("Durchschnittskm/h");
-                hoechstkmhResponse.setText("Hoechstkm/h");
+                tourKmResponse.setText("tour kilometers");
+                durchschnittsKmhResponse.setText("average speed");
+                hoechstkmhResponse.setText("top speed");
 
 
                 tourStartButton.setEnabled(true);
@@ -384,16 +391,19 @@ public class MainActivity extends Activity {
 
                     //durchschnittskmh
 
-/*
+
                     kmhSumme = Double.parseDouble(sharedPreferences.getString("kmhSummeDurch","0")) + kmh;
                     sharedPreferences.edit().putString("kmhSummeDurch",Double.toString(kmhSumme)).apply();
 
-                    kmhSummeCount = sharedPreferences.getInt("kmhSummeCount",0) + 1;
-                    sharedPreferences.edit().putInt("kmhSummeCount",kmhSummeCount).apply();
+                    if(kmh!=0)
+                    {
+                        kmhSummeCount = sharedPreferences.getInt("kmhSummeCount", 0) + 1;
+                        sharedPreferences.edit().putInt("kmhSummeCount", kmhSummeCount).apply();
+                    }
 
                     durchschnittsKmh = Double.parseDouble(sharedPreferences.getString("kmhSummeDurch","0"))/sharedPreferences.getInt("kmhSummeCount",0);
 
-                    */
+
                     //tourkm
 
 
@@ -402,11 +412,11 @@ public class MainActivity extends Activity {
                     //hoechstgesch
 
                     hoechstKmh = tourFuncs.höchstgeschwindigkeit(kmh,Double.parseDouble(sharedPreferences.getString("hoechstKmh","0")));
-
+                    sharedPreferences.edit().putString("hoechstKmh",Double.toString(hoechstKmh)).apply();
 
 
                     //durchschnittskmh var 2
-
+/*
                     double endTime = System.currentTimeMillis();
                     double hours = ((endTime - sharedPreferences.getLong("startTime",1)) / 1000)/3600;
 
@@ -417,8 +427,8 @@ public class MainActivity extends Activity {
                         hoechstKmh=60;
                     }
 
-                    sharedPreferences.edit().putString("hoechstKmh",Double.toString(hoechstKmh)).apply();
 
+*/
                 }
 
 
